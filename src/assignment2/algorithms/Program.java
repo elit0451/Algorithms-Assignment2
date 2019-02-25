@@ -26,28 +26,26 @@ public class Program {
         try{
             String[] words = FileUtility.toStringArray("C:\\Users\\Kast\\Documents\\School\\CBS\\ALGORITHMS\\Shakespeare_Complete_Smaller.txt","[^A-Za-z]");
             
-            //String[] words2 = new String[100];
-
-            //System.arraycopy(words, 0, words2, 0, words2.length);
             ArrayList<SymbolTable<String,Integer>> symbolTables = new ArrayList<>();
             
-            //symbolTables.add(new LinkedSymbolTable<>());
-            //symbolTables.add(new FlexibleArray<>(100));
-            //symbolTables.add(new HashSymbolTable<>(words.length));
-            symbolTables.add(new RedBlackBSTSymbolTable<>());
+            symbolTables.add(new LinkedSymbolTable<>());
+            symbolTables.add(new FlexibleArray<>(100));
+            symbolTables.add(new HashSymbolTable<>(words.length));
+            //symbolTables.add(new RedBlackBSTSymbolTable<>());
             
             doSymbolTablesInsertionAndReading(words, symbolTables);
         }
         catch(Exception e)
         {
-            System.out.println("Whoops! Something went wrong :( " + Arrays.toString(e.getStackTrace()));
+            System.out.println("Whoops! Something went wrong :( \n" + Arrays.toString(e.getStackTrace()));
         }
     }
 
     private void doSymbolTablesInsertionAndReading(String[] words, ArrayList<SymbolTable<String,Integer>> symbolTables) {
-        boolean printree  = false;
         for(SymbolTable<String, Integer> symbolTable : symbolTables)
         {
+            System.out.print("Calculating insertion time for - " + symbolTable.getClass() + ": ");
+            StopWatch sw = new StopWatch();
             for(String s : words)
             {
                 int value = 1;
@@ -59,15 +57,14 @@ public class Program {
                 {}
                 
                 symbolTable.put(s, value);
-                if(s.equals("in"))
-                    printree = true;
-                if(printree)
-                ((RedBlackBSTSymbolTable<String,Integer>) symbolTable).printTree();
             }
+            System.out.print(sw.elapsedTime() + "ms\n");
+            /*
+            //Was used with debug purposes and to make sure all the interface implementation was done correctly.
             
             Iterable<String> keys = symbolTable.keys();
 
-            System.out.println("Size: " + symbolTable.size());
+            System.out.println("Structure size: " + symbolTable.size());
 
             int c = 0;
             for(String key:keys)
@@ -76,8 +73,9 @@ public class Program {
                 //System.out.println(key + " : " + symbolTable.get(key));
             }
             
-            System.out.println("Count: " + c);
+            System.out.println("Keys count: " + c);
             System.out.println("\n-------------------------------------------------------\n");
+            */
         }
     }
     
